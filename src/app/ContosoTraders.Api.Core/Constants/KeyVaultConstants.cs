@@ -32,7 +32,5 @@ internal class KeyVaultConstants
 
     public static readonly string SecretNameStocksDbContainerName = "stocksDbContainerName";
 
-
-
     #endregion
 }

@@ -78,6 +78,7 @@ module containers './resources/containers.bicep' = {
     acaSubnetName: network.outputs.vnetAcaSubnetName
     keyvaultName: keyvault.outputs.keyvaultName
     logAnalyticsId: monitoring.outputs.logAnalyticsWorkspaceId
+    appInsightsConnectionString: monitoring.outputs.appInsightsConnectionString
   }
   dependsOn: [
     network
@@ -95,6 +96,7 @@ module databases './resources/databases.bicep' = {
     keyvaultName: keyvault.outputs.keyvaultName
     logAnalyticsId: monitoring.outputs.logAnalyticsWorkspaceId
     sqlServerAdmin: sqlServerAdmin
+    appInsightsConnectionString: monitoring.outputs.appInsightsConnectionString
   }
   dependsOn: [
     keyvault

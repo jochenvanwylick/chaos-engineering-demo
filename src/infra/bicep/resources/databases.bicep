@@ -16,6 +16,9 @@ param logAnalyticsId string
 @description('SQLServerAdmin principal')
 param sqlServerAdmin object
 
+@description('The connection string for the Application Insights instance')
+param appInsightsConnectionString string
+
 var sqlServerHostName = environment().suffixes.sqlServerHostname
 var sqlServerName = '${nameprefix}sqlserver'
 
@@ -287,6 +290,15 @@ resource secretCosmosStocksDbContainer 'Microsoft.KeyVault/vaults/secrets@2023-0
     value: '${cosmosStocksDatabaseName}dbc'
   }
 }
+
+resource appInsightsConnectionString 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  parent: keyvault
+  name: 'appInsightsConnectionString'
+  properties: {
+    value: '${appInsightsConnectionString}'
+  }
+}
+
 
 output sqlServerName string = sqlServer.name
 output sqlProductsDatabaseName string = productsdb.name

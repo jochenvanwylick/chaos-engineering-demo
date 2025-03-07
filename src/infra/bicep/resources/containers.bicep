@@ -25,6 +25,10 @@ param aksLinuxAdminUsername string = 'contosouser'
 @description('Log Analytics workspace ID for diagnostic settings')
 param logAnalyticsId string
 
+@description('The connection string for the Application Insights instance')
+param appInsightsConnectionString string 
+
+
 var acrName = '${nameprefix}registry'
 var acrPullRole = resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
 var sshKeyName = '${nameprefix}-vmss-sshkey'
@@ -219,6 +223,10 @@ resource cartsApiContainerApp 'Microsoft.App/containerApps@2023-11-02-preview' =
               name: 'ManagedIdentityClientId'
               value: '' 
               // This value is empty because we want the app to use the SystemAssigned identity:
+            }
+            {
+              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+              value: appInsightsConnectionString
             }
           ]
 
