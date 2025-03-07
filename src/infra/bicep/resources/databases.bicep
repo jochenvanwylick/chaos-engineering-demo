@@ -291,11 +291,11 @@ resource secretCosmosStocksDbContainer 'Microsoft.KeyVault/vaults/secrets@2023-0
   }
 }
 
-resource appInsightsConnectionString 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+resource appinsightsconnstr 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
   parent: keyvault
   name: 'appInsightsConnectionString'
   properties: {
-    value: '${appInsightsConnectionString}'
+    value: appInsightsConnectionString
   }
 }
 
