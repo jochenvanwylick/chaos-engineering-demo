@@ -704,7 +704,8 @@ jobs:
             CONNECTION_STRING=$(echo "${{ env.APPINSIGHTSCONNECTIONSTRING }}" | sed 's/%3B/;/g')
             echo "📝 Updating index.html - replacing [appinsights-connection-string] with:"
             echo "🔑 $CONNECTION_STRING"
-            sed -i "s/\[appinsights-connection-string\]/$CONNECTION_STRING/g" src/app/ContosoTraders.Ui.Website/index.html
+            CONNECTION_STRING_ESCAPED=$(echo "$CONNECTION_STRING" | sed 's/[\/&]/\\&/g')
+            sed -i "s/\[appinsights-connection-string\]/$CONNECTION_STRING_ESCAPED/g" src/app/ContosoTraders.Ui.Website/index.html
             echo "✅ Connection string replacement complete!"
   
 
