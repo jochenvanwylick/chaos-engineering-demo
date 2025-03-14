@@ -193,3 +193,4 @@ output sql_ProfilesDatabaseName string = databases.outputs.sqlProfilesDatabaseNa
 output sql_ProductsDatabaseName string = databases.outputs.sqlProductsDatabaseName
 output cosmos_StocksDatabaseName string = databases.outputs.cosmosStocksDatabaseName
 output entra_authority string = '${environment().authentication.loginEndpoint}${tenant().tenantId}'
+output appInsightsConnectionString string = monitoring.outputs.appInsightsConnectionString

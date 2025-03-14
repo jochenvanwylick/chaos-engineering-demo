@@ -1,4 +1,3 @@
-
 # Secrets required to be in place:
 # - AZURE_CREDENTIALS
 
@@ -695,7 +694,12 @@ jobs:
 
         - name: Update App Insights Connection String
           run: |
-            sed -i "s/\[appinsights-connection-string\]/'${{ env.APPINSIGHTS_CONNECTIONSTRING }}'/g" src/app/ContosoTraders.Ui.Website/index.html
+            echo "🔍 Reading Application Insights connection string from deployment output..."
+            CONNECTION_STRING=$(jq -r '.appInsightsConnectionString.value' output.deployment.json)
+            echo "📝 Updating index.html - replacing [appinsights-connection-string] with:"
+            echo "🔑 $CONNECTION_STRING"
+            sed -i "s/\[appinsights-connection-string\]/$CONNECTION_STRING/g" src/app/ContosoTraders.Ui.Website/index.html
+            echo "✅ Connection string replacement complete!"
   
 
         - name: Setup Node
