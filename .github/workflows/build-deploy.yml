@@ -694,8 +694,8 @@ jobs:
 
         - name: Update App Insights Connection String
           run: |
-            echo "🔍 Reading Application Insights connection string from deployment output..."
-            CONNECTION_STRING=$(jq -r '.appInsightsConnectionString.value' output.deployment.json)
+            echo "🔍 Reading Application Insights connection string from environment variable set by bicep output ..."
+            CONNECTION_STRING=${{ env.APPINSIGHTSCONNECTIONSTRING }}
             echo "📝 Updating index.html - replacing [appinsights-connection-string] with:"
             echo "🔑 $CONNECTION_STRING"
             sed -i "s/\[appinsights-connection-string\]/$CONNECTION_STRING/g" src/app/ContosoTraders.Ui.Website/index.html
