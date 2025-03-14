@@ -693,6 +693,11 @@ jobs:
             tokenSuffix: "}}"
             files: ./src/app/ContosoTraders.Ui.Website/.env.production 
 
+        - name: Update App Insights Connection String
+          run: |
+            sed -i "s/\[appinsights-connection-string\]/'${{ env.APPINSIGHTS_CONNECTIONSTRING }}'/g" src/app/ContosoTraders.Ui.Website/index.html
+  
+
         - name: Setup Node
           uses: actions/setup-node@v3
           with:

@@ -1,0 +1,21 @@
+name: Warm Up Environment
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+env:
+  RESOURCE_GROUP: ${{ secrets.RG_NAME }}  # Resource group from secrets
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x ./src/infra/scripts/start_environment.sh
+
+      - name: Execute environment startup script
+        run: ./src/infra/scripts/start_environment.sh "$RESOURCE_GROUP"
