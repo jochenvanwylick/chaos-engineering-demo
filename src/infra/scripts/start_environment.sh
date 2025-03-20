@@ -107,8 +107,7 @@ for vault in $key_vaults; do
   if ! az keyvault update \
     --name $vault \
     --resource-group $RESOURCE_GROUP \
-    --default-action Allow \
-    --bypass AzureServices &>/dev/null; then
+    --public-network-access Enabled &>/dev/null; then
     echo "❌ Failed to enable network access for $vault"
     ((FAILURE_COUNT++))
   else
