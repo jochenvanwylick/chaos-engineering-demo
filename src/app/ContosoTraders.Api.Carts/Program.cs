@@ -1,1 +1,1 @@
-DependencyInjection.ConfigureApp();
+DependencyInjection.ConfigureApp("CartsAPI");

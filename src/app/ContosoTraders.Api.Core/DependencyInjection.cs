@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Azure.Identity;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -34,7 +35,7 @@ public class DependencyInjection : FunctionsStartup
     /// <remarks>
     ///     To be explicitly called from an asp.net core application only
     /// </remarks>
-    public static void ConfigureApp()
+    public static void ConfigureApp(string appName)
     {
         var builder = WebApplication.CreateBuilder();
 
@@ -56,8 +57,9 @@ public class DependencyInjection : FunctionsStartup
         //             }));
 
         ConfigureServicesInternal(builder.Services, builder.Configuration);
-
         ConfigureAspNetCoreServices(builder.Services, builder.Configuration);
+        ConfigureTelemetry(builder.Services, builder.Configuration, appName);
+
 
         var app = builder.Build();
 
@@ -116,15 +118,19 @@ public class DependencyInjection : FunctionsStartup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        var appInsightsConnectionString = configuration[KeyVaultConstants.SecretNameAppInsightsConnectionString];
-        services.AddApplicationInsightsTelemetry(options => options.ConnectionString = appInsightsConnectionString);
-
         // @TODO: Temporary. Fix later.
         services.AddCors(options =>
             options.AddPolicy(_allowSpecificOrigins,
                 policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
         IdentityModelEventSource.ShowPII = true;
+    }
+
+    private static void ConfigureTelemetry(IServiceCollection services, IConfiguration configuration, string appName)
+    {
+        var appInsightsConnectionString = configuration[KeyVaultConstants.SecretNameAppInsightsConnectionString];
+        services.AddApplicationInsightsTelemetry(options => options.ConnectionString = appInsightsConnectionString);
+        services.AddSingleton<ITelemetryInitializer>(new CloudRoleNameInitializer(appName));
     }
 
 
