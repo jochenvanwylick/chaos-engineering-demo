@@ -39,9 +39,11 @@ for account in $storage_accounts; do
     echo "❌ Failed to enable public network access for '$account'"
     ((FAILURE_COUNT++))
   else
-    echo "✅ Public network access enabled"
+    echo "✅ Public network access enabled for '$account'"
   fi
 done
+
+echo "\n\n"
 
 # Fetch all CosmosDB account names in the resource group
 echo "📝 Fetching CosmosDB accounts..."
@@ -62,7 +64,7 @@ for cosmos in $cosmos_accounts; do
     echo "❌ Failed to enable local authentication for '$cosmos'"
     ((FAILURE_COUNT++))
   else
-    echo "✅ Local authentication enabled"
+    echo "✅ Local authentication enabled for '$cosmos'"
   fi
 
   if ! az cosmosdb update \
@@ -75,6 +77,8 @@ for cosmos in $cosmos_accounts; do
     echo "✅ Public network access enabled"
   fi
 done
+
+echo "\n\n"
 
 # Fetch all AKS cluster names in the resource group
 echo "📝 Fetching AKS clusters..."
@@ -103,6 +107,8 @@ for cluster in $aks_clusters; do
   fi
 done
 
+echo "\n\n"
+
 # Fetch all Key Vault names in the resource group
 echo "📝 Fetching Key Vaults..."
 key_vaults=$(az keyvault list \
@@ -121,9 +127,11 @@ for vault in $key_vaults; do
     echo "❌ Failed to enable network access for '$vault'"
     ((FAILURE_COUNT++))
   else
-    echo "✅ Network access enabled"
+    echo "✅ Network access enabled for '$vault'"
   fi
 done
+
+echo "\n\n"
 
 # Final status report
 if [ $FAILURE_COUNT -eq 0 ]; then
