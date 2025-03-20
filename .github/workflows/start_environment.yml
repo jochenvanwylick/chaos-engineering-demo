@@ -1,4 +1,4 @@
-name: Warm Up Environment
+name: Start up environment
 
 on:
   workflow_dispatch:  # Allows manual triggering of the workflow
@@ -7,7 +7,7 @@ env:
   RESOURCE_GROUP: ${{ secrets.RG_NAME }}  # Resource group from secrets
 
 jobs:
-  warmup:
+  start_environment:
     runs-on: ubuntu-latest
     
     steps:
