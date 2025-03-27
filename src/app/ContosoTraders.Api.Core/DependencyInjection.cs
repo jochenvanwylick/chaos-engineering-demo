@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.Cosmos;
@@ -40,10 +41,17 @@ public class DependencyInjection : FunctionsStartup
         var builder = WebApplication.CreateBuilder();
 
         // if (builder.Environment.IsDevelopment())
+
+        var keyVaultEndpoint = builder.Configuration["KeyVaultEndpoint"];
+
         builder.Configuration.AddAzureKeyVault(
-                new Uri(builder.Configuration["KeyVaultEndpoint"]),
+                new Uri(keyVaultEndpoint),
                 new DefaultAzureCredential());
-                
+
+        builder.Services.AddSingleton(new SecretClient(
+            new Uri(keyVaultEndpoint),
+            new DefaultAzureCredential()));
+
         // For local development, use the tenant
         // TenantId = builder.Configuration["TenantId"]                                        
         // );

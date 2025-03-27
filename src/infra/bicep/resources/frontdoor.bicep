@@ -157,6 +157,7 @@ resource afdroute_cartsapi 'Microsoft.Cdn/profiles/afdendpoints/routes@2021-06-0
       '/v1/carts/*'
       '/v1/shoppingcart'
       '/v1/shoppingcart/*'
+      '/v1/carthealth/*'
     ]
     forwardingProtocol: 'MatchRequest'
     linkToDefaultDomain: 'Enabled'
